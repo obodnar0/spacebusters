@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Planet
   - TSlide
+  - RSlide
   layers:
   - Default
   - TransparentFX

@@ -10,10 +10,16 @@ public class PlanetConfigurator : MonoBehaviour
     private Renderer _rend;
 
     public static float Temperature = 10;
+    public static float Radius = 1000;
 
     public static void SetTemperature(float temp)
     {
         Temperature = temp;
+    }
+
+    public static void SetRadius(float radius)
+    {
+        Radius = radius;
     }
 
     void Start()
@@ -66,5 +72,8 @@ public class PlanetConfigurator : MonoBehaviour
         SetMaterialGradient("Earth", "HotPlanet", 110, 130);
 
         EarthAtmosphere.ChangeTransparency(_rend.Material("Earth").color.a);
+
+        float gs = Radius / 1000;
+        _rend.transform.localScale = new Vector3(gs, gs, gs);
     }
 }
