@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Assets.Scripts
 {
@@ -23,6 +25,13 @@ namespace Assets.Scripts
         public static Material Material(this Renderer renderer, string name)
         {
             return renderer.materials.FirstOrDefault(x => x.ClearName() == name);
+        }
+
+        static double CalculateTemperatureEquilibrium(double starTemperature, double starRadius, double orbitalDistance, double bondAlbedo)
+        {
+            var res = starTemperature * Math.Sqrt(starRadius / (2 * orbitalDistance)) * Math.Pow(1 - bondAlbedo, 0.25);
+
+            return res;
         }
     }
 }
