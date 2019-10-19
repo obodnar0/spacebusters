@@ -6,11 +6,18 @@ public class PlanetConfigurator : MonoBehaviour
     public Material[] _materials;
     private Renderer _rend;
 
+
     public static double Temperature = 10;
+    public static float Radius = 1000;
 
     public static void SetTemperature(double temp)
     {
         Temperature = temp;
+    }
+
+    public static void SetRadius(float radius)
+    {
+        Radius = radius;
     }
 
     void Start()
@@ -31,6 +38,8 @@ public class PlanetConfigurator : MonoBehaviour
         CameraRotator.IsPressed = false;
     }
 
+
+
     void UpdateMaterial(string name)
     {
        
@@ -38,6 +47,8 @@ public class PlanetConfigurator : MonoBehaviour
 
     void Update()
     {
+        float gs = Radius / 1000;
+        _rend.transform.localScale = new Vector3(gs, gs, gs);
         if (Temperature < -80)
         {
             UpdateMaterial("FrozenPlanetTexture");
