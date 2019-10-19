@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 
 public class EarthAtmosphere : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class EarthAtmosphere : MonoBehaviour
 
     public void Update()
     {
-        _rend.material.color = new Color(_rend.material.color.r, _rend.material.color.g, _rend.material.color.b, transparency);
+        _rend.material.color = _rend.material.color.Opacity(transparency);
         transform.Rotate(0, speed * Time.deltaTime, 0);
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts;
 using UnityEngine;
 
 public class PlanetConfigurator : MonoBehaviour
@@ -6,9 +9,9 @@ public class PlanetConfigurator : MonoBehaviour
     public Material[] _materials;
     private Renderer _rend;
 
-    public static double Temperature = 10;
+    public static float Temperature = 10;
 
-    public static void SetTemperature(double temp)
+    public static void SetTemperature(float temp)
     {
         Temperature = temp;
     }
@@ -31,31 +34,37 @@ public class PlanetConfigurator : MonoBehaviour
         CameraRotator.IsPressed = false;
     }
 
-    void UpdateMaterial(string name)
+    void SetMaterialGradient(string materialNameFirst, string materialNameSecond, float from, float to)
     {
-       
+        if (from > Temperature || Temperature >= to)
+            return;
+
+        var first = _rend.Material(materialNameFirst);
+        var second = _rend.Material(materialNameSecond);
+        var opasity = ((Temperature - from) / (to - from)).Range(0, 1);
+
+        first.color = first.color.Opacity(1 - opasity);
+        second.color = second.color.Opacity(opasity);
+    }
+
+    void SetMaterialForTemperature(string materialName, float from, float to)
+    {
+        var material = _rend.Material(materialName);
+
+        material.color = material.color.Opacity(from > Temperature || Temperature >= to ? 0 : 1);
     }
 
     void Update()
     {
-        if (Temperature < -80)
-        {
-            UpdateMaterial("FrozenPlanetTexture");
-        }
+        SetMaterialForTemperature("FrozenPlanetTexture", -280, -85);
+        SetMaterialForTemperature("PlanetTexture", -65, -5);
+        SetMaterialForTemperature("Earth", 15, 110);
+        SetMaterialForTemperature("HotPlanet", 130, 600);
 
-        if (Temperature > -80 && Temperature < 0)
-        {
-            UpdateMaterial("PlanetTexture");
-        }
+        SetMaterialGradient("FrozenPlanetTexture", "PlanetTexture", -85, -65);
+        SetMaterialGradient("PlanetTexture", "Earth", -5, 15);
+        SetMaterialGradient("Earth", "HotPlanet", 110, 130);
 
-        if (Temperature > 0 && Temperature < 120)
-        {
-            UpdateMaterial("Earth");
-        }
-
-        if (Temperature > 120)
-        {
-            UpdateMaterial("HotPlanet");
-        }
+        EarthAtmosphere.ChangeTransparency(_rend.Material("Earth").color.a);
     }
 }
