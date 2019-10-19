@@ -24,6 +24,7 @@ public class PlanetConfigurator : MonoBehaviour
 
     void Start()
     {
+        ObjectsStorage.Ints.Planet = gameObject;
         _rend = GetComponent<Renderer>();
         _rend.enabled = true;
         _materials = _rend.sharedMaterials;
