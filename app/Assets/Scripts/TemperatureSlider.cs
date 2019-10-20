@@ -14,6 +14,6 @@ public class TemperatureSlider : MonoBehaviour
 
     void Update()
     {
-        PlanetConfigurator.Temperature = TempSlider.value;  
+        PlanetConfigurator.StarTemperature = TempSlider.value;  
     }
 }
