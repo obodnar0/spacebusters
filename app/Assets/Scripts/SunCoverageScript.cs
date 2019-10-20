@@ -14,6 +14,6 @@ public class SunCoverageScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.localScale = new Vector3(ObjectsStorage.Ints.Star.transform.localScale.x + 1, ObjectsStorage.Ints.Star.transform.localScale.y + 1, ObjectsStorage.Ints.Star.transform.localScale.z + 1);
+        gameObject.transform.localScale = new Vector3(ObjectsStorage.Ints.Star.transform.localScale.x - 1, ObjectsStorage.Ints.Star.transform.localScale.y - 1, ObjectsStorage.Ints.Star.transform.localScale.z - 1);
     }
 }
