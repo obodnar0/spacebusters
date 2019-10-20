@@ -32,29 +32,51 @@ public class PlanetMassSliderScript : MonoBehaviour
 		
     }
 
+    private int _state = 0;
+
     void ScheduleAlert(float value)
     {
 	    var link = "https://www.lpi.usra.edu/education/explore/our_place/hab_ref_table.pdf";
+        var state = GetState(value);
 
-	    if (PlanetConfigurator.IsGasGiant())
-	    {
-		    MessageCenter.Show(GasGiantAlertText, GasGiantAlertTitle, link);
-		}
-		else if (value >= MaxHabitualMass)
-	    {
-			MessageCenter.Show(LargeMassAlertText, LargeMassAlertTitle, link);
-		}
-		else if (value >= MinHabitualMass)
-	    {
-		    MessageCenter.Show(OkMassAlertText, OkMassAlertTitle, link);
-	    }
-		else
-	    {
-		    MessageCenter.Show(SmallMassAlertText, SmallMassAlertTitle, link);
-		}
-	}
+        if(state == _state)
+            return;
 
-	// content
+        switch (state)
+        {
+            case 1: MessageCenter.Show(GasGiantAlertText, GasGiantAlertTitle, link); break;
+            case 2: MessageCenter.Show(LargeMassAlertText, LargeMassAlertTitle, link); break;
+            case 3: MessageCenter.Show(OkMassAlertText, OkMassAlertTitle, link); break;
+            case 4: MessageCenter.Show(SmallMassAlertText, SmallMassAlertTitle, link); break;
+        }
+
+        _state = state;
+    }
+
+    private static int GetState(float value)
+    {
+        int state;
+        if (PlanetConfigurator.IsGasGiant())
+        {
+            state = 1;
+        }
+        else if (value >= MaxHabitualMass)
+        {
+            state = 2;
+        }
+        else if (value >= MinHabitualMass)
+        {
+            state = 3;
+        }
+        else
+        {
+            state = 4;
+        }
+
+        return state;
+    }
+
+    // content
 
 	// small mass
 	public const string SmallMassAlertText =
