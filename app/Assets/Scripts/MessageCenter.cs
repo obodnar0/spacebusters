@@ -38,12 +38,15 @@ public class MessageCenter : MonoBehaviour
 
     public static void Show(string text, string title = null, string url = null)
     {
-	    Messages.Enqueue(new Message
+        ClearQueue();
+
+        Messages.Enqueue(new Message
 		    {
 			    Title = title,
 			    Text = text,
 			    Link = url
 		    });
+        CloseMessage();
     }
 
     public void OpenLink()
@@ -54,12 +57,17 @@ public class MessageCenter : MonoBehaviour
         }
     }
 
-    public void CloseMessage()
+    public static void CloseMessage()
     {
         if (EndOfShowing.HasValue)
         {
-            EndOfShowing = Time.time + SecondsOfAnimate ?? 0;
+            EndOfShowing = Math.Min(Time.time + SecondsOfAnimate ?? 0, EndOfShowing.Value);
         }
+    }
+
+    public static void ClearQueue()
+    {
+        Messages.Clear();
     }
 
     void Update()
