@@ -56,6 +56,6 @@ public class PlanetRadiusScript : MonoBehaviour
 	{
 		double jupiterRadious = 10.97;//Earth R
 
-		_text.text = $"Planet radius: { ( value * jupiterRadious ).ToString( "D2" ) } Jupiter R ({ value.ToString() } Jupiter R)";
+		_text.text = $"Planet radius: { ( value * jupiterRadious ) :0.00} Jupiter R ({ value.ToString() } Jupiter R)";
 	}
 }

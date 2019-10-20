@@ -11,7 +11,7 @@ public class PlanetConfigurator : MonoBehaviour
     public const float JupyterRadius = (float) (7 * 1e4);
 
     public static float Temperature = 10;
-    public static float Radius = 1000;
+    public static float Radius = 1;
     private static float PrevX;
     private static float PrevY;
     public static float Mass = 1000;
