@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlanetConfigurator : MonoBehaviour
 {
@@ -24,7 +20,7 @@ public class PlanetConfigurator : MonoBehaviour
 
     void Start()
     {
-        ObjectsStorage.Ints.Planet = gameObject;
+        //ObjectsStorage.Ints.Planet = gameObject;
         _rend = GetComponent<Renderer>();
         _rend.enabled = true;
         _materials = _rend.sharedMaterials;
