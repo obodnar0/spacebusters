@@ -12,6 +12,8 @@ public class PlanetConfigurator : MonoBehaviour
 
     public static float Temperature = 10;
     public static float Radius = 1000;
+    private static float PrevX;
+    private static float PrevY;
     public static float Mass = 1000;
 
     public static void SetTemperature(float temp)
@@ -89,7 +91,7 @@ public class PlanetConfigurator : MonoBehaviour
 
         EarthAtmosphere.ChangeTransparency(_rend.Material("Earth").color.a);
 
-        float gs = Radius / 1000;
+        float gs = Radius;
         _rend.transform.localScale = new Vector3(gs, gs, gs);
-    }
+	}
 }

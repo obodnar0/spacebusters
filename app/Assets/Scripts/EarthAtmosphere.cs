@@ -29,7 +29,7 @@ public class EarthAtmosphere : MonoBehaviour
 
     public void Update()
     {
-        float gs = Radius / 1000;
+        float gs = Radius;
         _rend.transform.localScale = new Vector3(gs,gs,gs);
         _rend.material.color = _rend.material.color.Opacity(transparency);
         transform.Rotate(0, speed * Time.deltaTime, 0);
