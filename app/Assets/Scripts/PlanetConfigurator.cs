@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using System;
+using Assets.Scripts;
 using UnityEngine;
 
 public class PlanetConfigurator : MonoBehaviour
@@ -6,8 +7,12 @@ public class PlanetConfigurator : MonoBehaviour
     public Material[] _materials;
     private Renderer _rend;
 
+    public const float JupyterMass = (float) (1.9 * 1e27);
+    public const float JupyterRadius = (float) (7 * 1e4);
+
     public static float Temperature = 10;
     public static float Radius = 1000;
+    public static float Mass = 1000;
 
     public static void SetTemperature(float temp)
     {
@@ -19,7 +24,20 @@ public class PlanetConfigurator : MonoBehaviour
         Radius = radius;
     }
 
-    void Start()
+    public static bool IsGasGiant()
+    {
+	    var density = CalculateDensity(Mass * JupyterMass, Radius * JupyterRadius);
+	    return density < 1.64;
+    }
+
+    public static double CalculateDensity(double mass, double radius)
+    {
+	    var volume = (4.0 / 3.0) * Math.PI * Math.Pow(radius, 3);
+
+	    return mass  / volume;
+    }
+
+	void Start()
     {
         //ObjectsStorage.Ints.Planet = gameObject;
         _rend = GetComponent<Renderer>();

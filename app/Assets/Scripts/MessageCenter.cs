@@ -38,12 +38,12 @@ public class MessageCenter : MonoBehaviour
 
     public static void Show(string text, string title = null, string url = null)
     {
-        Messages.Enqueue(new Message
-        {
-            Title = title,
-            Text = text, 
-            Link = url
-        });
+	    Messages.Enqueue(new Message
+		    {
+			    Title = title,
+			    Text = text,
+			    Link = url
+		    });
     }
 
     public void OpenLink()
