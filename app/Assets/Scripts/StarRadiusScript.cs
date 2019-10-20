@@ -17,5 +17,6 @@ public class StarRadiusScript : MonoBehaviour
     {
         var gs = RadSlider.value / 1000;
         ObjectsStorage.Ints.Star.transform.localScale = new Vector3(-gs,-gs,-gs);
-    }
+        PlanetConfigurator.StarRadius = RadSlider.value;
+	}
 }

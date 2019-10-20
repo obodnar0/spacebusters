@@ -13,7 +13,7 @@ public class MessageCenter : MonoBehaviour
 
     public static Queue<Message> Messages { get; } = new Queue<Message>();
 
-    public static float SecondsOfShowing = 3;
+    public static float SecondsOfShowing = 4;
     public static float? SecondsOfAnimate = 0.5F;
     public static float? EndOfShowing;
 

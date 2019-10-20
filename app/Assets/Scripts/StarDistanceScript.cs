@@ -15,6 +15,7 @@ public class StarDistanceScript : MonoBehaviour
     {
         ObjectsStorage.Ints.Star.transform.position = new Vector3(ObjectsStorage.Ints.Star.transform.position.x,
             ObjectsStorage.Ints.Star.transform.position.y, -DistanceSlider.value / 100);
-        //ObjectsStorage.Ints.StarCoverage.transform.position = ObjectsStorage.Ints.Star.transform.position;
-    }
+		//ObjectsStorage.Ints.StarCoverage.transform.position = ObjectsStorage.Ints.Star.transform.position;
+		PlanetConfigurator.StarDistance = DistanceSlider.value;
+	}
 }

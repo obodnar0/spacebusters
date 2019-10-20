@@ -25,7 +25,7 @@ public class PlanetConfigurator : MonoBehaviour
 		    if (Math.Abs(_starDistance - value) > 1e-9)
 		    {
 			    _starDistance = value;
-			    CheckPlanetTemperature();
+			    ScheduleAlert();
 			}
 	    }
     }
@@ -38,7 +38,7 @@ public class PlanetConfigurator : MonoBehaviour
 			if (Math.Abs(_starRadius - value) > 1e-9)
 			{
 				_starRadius = value;
-				CheckPlanetTemperature();
+				ScheduleAlert();
 			}
 		}
     }
@@ -51,7 +51,7 @@ public class PlanetConfigurator : MonoBehaviour
 			if (Math.Abs(_starTemperature - value) > 1e-9)
 			{
 				_starTemperature = value;
-				CheckPlanetTemperature();
+				ScheduleAlert();
 			}
 		}
     }
@@ -62,28 +62,50 @@ public class PlanetConfigurator : MonoBehaviour
     public static float Mass = 1000;
 
 
+    private static int _state = 0;
 
-    public static void CheckPlanetTemperature()
+    static void ScheduleAlert()
     {
 	    var link = "https://www.lpi.usra.edu/education/explore/our_place/hab_ref_table.pdf";
-		var temperature = (float) CalculateTemperatureEquilibrium(_starTemperature, _starRadius, _starDistance, 0.29f);
-	    if (temperature >= 400)
+	    var state = GetState();
+
+	    if (state == _state)
+		    return;
+
+	    switch (state)
 	    {
-		    MessageCenter.Show("Causes temperature about 125oC and higher, protein and carbohydrate molecules and genetic material (e.g., DNA and RNA) start to break apart. Also, high temperatures quickly evaporate water.", "high", link);
-	    }
-		else if (temperature >= 200)
-	    {
-		    MessageCenter.Show("Great! life seems limited to a temperature range of minus 15oC to 115oC. In this range, liquid water can still exist under certain conditions.", "ok",link);
-	    }
-		else
-	    {
-		    MessageCenter.Show("Low temperatures cause chemicals to react slowly, which interferes with the reactions necessary for life. Also low temperatures freeze water, making liquid water unavailable.", "low",link);
+		    case 1: MessageCenter.Show("Causes temperature about 125oC and higher, protein and carbohydrate molecules and genetic material (e.g., DNA and RNA) start to break apart. Also, high temperatures quickly evaporate water.", "High temperature", link); break;
+		    case 2: MessageCenter.Show("Great! life seems limited to a temperature range of minus 15oC to 115oC. In this range, liquid water can still exist under certain conditions.", "Good temperature", link); break;
+		    case 3: MessageCenter.Show("Low temperatures cause chemicals to react slowly, which interferes with the reactions necessary for life. Also low temperatures freeze water, making liquid water unavailable.", "Low temperature", link); break;
 	    }
 
-	    _planetTemperature = temperature;
+	    _state = state;
     }
 
-    public static double CalculateTemperatureEquilibrium(float starTemperature, float starRadius, float orbitalDistance, float bondAlbedo)
+
+	private static int GetState()
+    {
+		var state = 0;
+		var temperature = (float)CalculateTemperatureEquilibrium(_starTemperature, _starRadius, _starDistance * 500000, 0.29f);
+		if (temperature >= 400)
+		{
+			state = 1;
+		}
+		else if (temperature >= 200)
+		{
+			state = 2;
+		}
+		else
+		{
+			state = 3;
+		}
+
+		_planetTemperature = temperature;
+
+		return state;
+    }
+
+	public static double CalculateTemperatureEquilibrium(float starTemperature, float starRadius, float orbitalDistance, float bondAlbedo)
     {
 	    var res = starTemperature * Math.Sqrt(starRadius / (2 * orbitalDistance)) * Math.Pow(1 - bondAlbedo, 0.25);
 
@@ -149,19 +171,19 @@ public class PlanetConfigurator : MonoBehaviour
     {
         var material = _rend.Material(materialName);
 
-        material.color = material.color.Opacity(from > StarTemperature || StarTemperature >= to ? 0 : 1);
+        material.color = material.color.Opacity(from > _planetTemperature || _planetTemperature >= to ? 0 : 1);
     }
 
     void Update()
     {
         SetMaterialForTemperature("FrozenPlanetTexture", 0, 100);
-        SetMaterialForTemperature("PlanetTexture", 100, 230);
-        SetMaterialForTemperature("Earth", 230, 400);
-        SetMaterialForTemperature("HotPlanet", 400, 2000);
+        SetMaterialForTemperature("PlanetTexture", 110, 230);
+        SetMaterialForTemperature("Earth", 240, 400);
+        SetMaterialForTemperature("HotPlanet", 410, 2000);
 
-        SetMaterialGradient("FrozenPlanetTexture", "PlanetTexture", 0, 100);
-        SetMaterialGradient("PlanetTexture", "Earth", 100, 230);
-        SetMaterialGradient("Earth", "HotPlanet", 230, 400);
+        SetMaterialGradient("FrozenPlanetTexture", "PlanetTexture", 100, 110);
+        SetMaterialGradient("PlanetTexture", "Earth", 230, 240);
+        SetMaterialGradient("Earth", "HotPlanet", 400, 410);
 
         EarthAtmosphere.ChangeTransparency(_rend.Material("Earth").color.a);
 
